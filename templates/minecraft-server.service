@@ -11,7 +11,7 @@ Group={{ group }}
 Restart=always
 
 # start cmd
-ExecStart=/usr/bin/screen -DmS {{ screen_name }} /usr/bin/java -Xms{{ ram_min }}G -Xmx{{ ram_max }}G  -jar server.jar nogui
+ExecStart=/usr/bin/screen -DmS {{ screen_name }} /usr/bin/java -Xms{{ ram_min }}G -Xmx{{ ram_max }}G  -jar minecraft_server.{{ minecraft_server_version }}.jar nogui
 
 # stop cmd
 # timeout before stop
