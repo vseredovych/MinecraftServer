@@ -12,7 +12,7 @@ forge_installer_download_url="https://files.minecraftforge.net/maven/net/minecra
 vanilla_server_download_url="https://launcher.mojang.com/mc/game/1.12.2/server/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
 
 # gcp variables manually
-gcp_persistant_volume_name="mine-disk"
+gcp_persistant_volume_name="google-mine-disk"
 gcp_project_id="minecraft-server-298410"
 gcp_bucket_name="${gcp_project_id}-backups"
 
@@ -48,7 +48,7 @@ sudo apt-get install zip unzip wget screen -y
 
 # Install jdk-8 and set alternatives
 sudo apt-get install openjdk-8-jdk -y
-update-java-alternatives -s java-1.8.0-openjdk-amd64
+update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server
@@ -61,7 +61,7 @@ java -jar "forge-installer-${minecraft_server_version}.jar" --installServer
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create systemd service
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-sudo cp -rf ./minecraft-server.service /etc/systemd/system/${systemd_service_name}
+sudo cp -rf ./templates/minecraft-server.service /etc/systemd/system/${systemd_service_name}
 
 sed -i "s/{{ user }}/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}
 sed -i "s/{{ group }}/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}
