@@ -32,7 +32,7 @@ if [[ $1 == "help" ]]; then
 fi
 
 if [[ $1 == "clean" ]]; then
-    gsutil rb -c standard -l europe-west3 gs://${gcp_bucket_name}
+    gsutil rb -f gs://${gcp_bucket_name}
     umount /home/${minecraft_server_user}
     rm -rf /home/${minecraft_server_user}
     userdel ${minecraft_server_user}
@@ -42,14 +42,23 @@ fi
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create gcp bucket
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-gsutil mb -c standard -l europe-west3 gs://${gcp_bucket_name}
+
+if ! [[ $(gsutil ls | grep ${gcp_bucket_name}) ]]; then
+    gsutil mb -c standard -l europe-west3 gs://${gcp_bucket_name}
+else
+    echo "Bucket with name \"${gcp_bucket_name}\" alerady exists"
+fi
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Prerequisites
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 # Create minecraft user 
-sudo adduser ${minecraft_server_user} --gecos "FirstName LastName,RoomNumber,WorkPhone,HomePhone" --disabled-password
+if ! [[ $(id -u ${minecraft_server_user}) ]]; then
+    sudo adduser ${minecraft_server_user} --gecos "FirstName LastName,RoomNumber,WorkPhone,HomePhone" --disabled-password
+else
+    echo "User with name \"${gcp_bucket_name}\" alerady exists"
+fi
 
 # Format disk to ext4 format
 sudo mkfs.ext4 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/disk/by-id/${gcp_persistant_volume_name}
@@ -89,9 +98,7 @@ sed -i "s/{{ ram_max }}/${ram_max}/" /etc/systemd/system/${systemd_service_name}
 sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ minecraft_server_version }}/${minecraft_server_version}/" /etc/systemd/system/${systemd_service_name}.service
 
-sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user} 
 sudo systemctl daemon-reload
-
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup script
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -104,5 +111,7 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/$
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Start minecraft server
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user} 
+
 sudo service ${systemd_service_name} enable
 sudo service ${systemd_service_name} start
