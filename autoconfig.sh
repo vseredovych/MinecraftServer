@@ -119,5 +119,5 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/$
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user} 
 
-sudo service ${systemd_service_name} start
-sudo service ${systemd_service_name} enable
+sudo systemctl start ${systemd_service_name}
+sudo systemctl enable ${systemd_service_name}
