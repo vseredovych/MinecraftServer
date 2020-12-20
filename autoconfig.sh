@@ -89,9 +89,7 @@ sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_servi
 sed -i "s/{{ minecraft_server_version }}/${minecraft_server_version}/" /etc/systemd/system/${systemd_service_name}.service
 
 sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user} 
-
 sudo systemctl daemon-reload
-sudo service ${systemd_service_name} enable
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup script
@@ -105,4 +103,5 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/$
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Start minecraft server
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+sudo service ${systemd_service_name} enable
 sudo service ${systemd_service_name} start
