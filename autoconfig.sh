@@ -53,8 +53,8 @@ update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" ${forge_installer_download_url}
-cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url}
+( cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" ${forge_installer_download_url} )
+( cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url} )
 
 java -jar "forge-installer-${minecraft_server_version}.jar" --installServer
 
