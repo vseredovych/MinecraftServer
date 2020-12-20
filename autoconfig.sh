@@ -33,7 +33,9 @@ gsutil mb -c standard -l us-central1 gs://${gcp_bucket_name}
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 # Create minecraft user 
-sudo adduser ${minecraft_server_user} --gecos "FirstName LastName,RoomNumber,WorkPhone,HomePhone" --disabled-password
+if [[ ! id -u ${minecraft_server_user} ]]
+    sudo adduser ${minecraft_server_user} --gecos "FirstName LastName,RoomNumber,WorkPhone,HomePhone" --disabled-password
+fi
 
 # Format disk to ext4 format
 sudo mkfs.ext4 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/disk/by-id/${gcp_persistant_volume_name}
@@ -53,8 +55,8 @@ update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" forge_installer_download_url
-cd /home/${minecraft_server_user} && wget vanilla_server_download_url
+cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" ${forge_installer_download_url}
+cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url}
 
 java -jar "forge-installer-${minecraft_server_version}.jar" --installServer
 
@@ -73,7 +75,6 @@ sed -i "s/{{ screen_name }}/\/home/${screen_name}/" /etc/systemd/system/${system
 
 sudo systemctl daemon-reload
 sudo enable ${systemd_service_name}
-
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup script
