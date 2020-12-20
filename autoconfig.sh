@@ -48,7 +48,7 @@ sudo apt-get install zip unzip wget screen -y
 
 # Install jdk-8 and set alternatives
 sudo apt-get install openjdk-8-jdk -y
-update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
+sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server
@@ -56,7 +56,7 @@ update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 ( cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" ${forge_installer_download_url} )
 ( cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url} )
 
-java -jar "forge-installer-${minecraft_server_version}.jar" --installServer
+sudo java -jar "forge-installer-${minecraft_server_version}.jar" --installServer
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create systemd service
@@ -71,8 +71,10 @@ sed -i "s/{{ ram_min }}/${ram_min}/" /etc/systemd/system/${systemd_service_name}
 sed -i "s/{{ ram_max }}/${ram_max}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
 
+sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user} 
+
 sudo systemctl daemon-reload
-sudo enable ${systemd_service_name}
+sudo service enable ${systemd_service_name}
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup script
