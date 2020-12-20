@@ -76,17 +76,15 @@ sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 ( cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url} )
 
 ( cd /home/${minecraft_server_user} && /usr/bin/java -jar "forge-installer-1.12.2.jar" --installServer )
-
 ( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt )
-
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server mods
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 if [[ ${gcp_bucket_mods_archive_path} ]]; then
-    gsutil cp gs://${gcp_bucket_name}/$gcp_bucket_mods_archive_path /home/${minecraft_server_user}/mods.zip
-    unzip /home/${minecraft_server_user}/mods.zip
-    rm -rf mods.zip
+    ( cd /home/${minecraft_server_user} && gsutil cp gs://${gcp_bucket_name}/$gcp_bucket_mods_archive_path /home/${minecraft_server_user}/mods.zip )
+    ( cd /home/${minecraft_server_user} && unzip /home/${minecraft_server_user}/mods.zip )
+    ( cd /home/${minecraft_server_user} && rm -rf mods.zip )
 else
     echo "WARNING: mods variable hasn't been configured. No mods will be installed."
 fi
@@ -105,9 +103,8 @@ sed -i "s/{{ ram_max }}/${ram_max}/" /etc/systemd/system/${systemd_service_name}
 sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ minecraft_server_version }}/${minecraft_server_version}/" /etc/systemd/system/${systemd_service_name}.service
 
-echo "1"
 sudo systemctl daemon-reload
-echo "2"
+
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup script
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -122,5 +119,5 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/$
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user} 
 
-sudo service ${systemd_service_name} enable
 sudo service ${systemd_service_name} start
+sudo service ${systemd_service_name} enable
