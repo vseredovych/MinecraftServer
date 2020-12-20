@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Define some variables manually
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -22,6 +21,16 @@ systemd_service_name="minecraft"
 ram_min=1
 ram_max=2
 screen_name="mcs"
+
+
+# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+# Cleanup everything
+# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+if [[ $1 == "clean" ]]; then
+    umount /home/${minecraft_server_user}
+    rm -rf /home/${{minecraft_server_user}}
+    userdel ${minecraft_server_user}
+fi
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create gcp bucket
