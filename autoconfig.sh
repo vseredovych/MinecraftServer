@@ -33,9 +33,9 @@ fi
 
 if [[ $1 == "clean" ]]; then
     umount /home/${minecraft_server_user}
-    rm -rf /home/${{minecraft_server_user}}
+    rm -rf /home/${minecraft_server_user}
     userdel ${minecraft_server_user}
-    exit 0;
+    exit 0
 fi
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -73,6 +73,7 @@ sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 
 ( cd /home/${minecraft_server_user} && /usr/bin/java -jar "forge-installer-1.12.2.jar" --installServer )
 
+( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt )
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create systemd service
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -85,11 +86,12 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /etc/sy
 sed -i "s/{{ ram_min }}/${ram_min}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ ram_max }}/${ram_max}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ minecraft_server_version }}/${minecraft_server_version}/" /etc/systemd/system/${systemd_service_name}.service
 
 sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user} 
 
 sudo systemctl daemon-reload
-sudo service enable ${systemd_service_name}
+sudo service ${systemd_service_name} enable
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup script
@@ -99,3 +101,8 @@ sudo cp -rf ./templates/backup.sh /home/${minecraft_server_user}/backup.sh
 sed -i "s/{{ screen_name }}/${screen_name}/" /home/${minecraft_server_user}/backup.sh
 sed -i "s/{{ gcp_bucket_name }}/${gcp_bucket_name}/" /home/${minecraft_server_user}/backup.sh
 sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/${minecraft_server_user}/backup.sh
+
+# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+# Start minecraft server
+# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+sudo service ${systemd_service_name} start
