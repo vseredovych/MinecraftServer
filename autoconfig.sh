@@ -65,11 +65,11 @@ sudo cp -rf ./templates/minecraft-server.service /etc/systemd/system/${systemd_s
 
 sed -i "s/{{ user }}/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ group }}/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}.service
-sed -i "s/{{ minecraft_server_home }}/\/home/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}.service
 
-sed -i "s/{{ ram_min }}/\/home/${ram_min}/" /etc/systemd/system/${systemd_service_name}.service
-sed -i "s/{{ ram_max }}/\/home/${ram_max}/" /etc/systemd/system/${systemd_service_name}.service
-sed -i "s/{{ screen_name }}/\/home/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ ram_min }}/${ram_min}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ ram_max }}/${ram_max}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
 
 sudo systemctl daemon-reload
 sudo enable ${systemd_service_name}
@@ -79,6 +79,6 @@ sudo enable ${systemd_service_name}
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 sudo cp -rf ./templates/backup.sh /home/${minecraft_server_user}/backup.sh
 
-sed -i "s/{{ screen_name }}/\/home/${screen_name}/" /home/${minecraft_server_user}/backup.sh
-sed -i "s/{{ gcp_bucket_name }}/\/home/${gcp_bucket_name}/" /home/${minecraft_server_user}/backup.sh
-sed -i "s/{{ minecraft_server_home }}/\/home/${minecraft_server_user}/" /home/${minecraft_server_user}/backup.sh
+sed -i "s/{{ screen_name }}/${screen_name}/" /home/${minecraft_server_user}/backup.sh
+sed -i "s/{{ gcp_bucket_name }}/${gcp_bucket_name}/" /home/${minecraft_server_user}/backup.sh
+sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/${minecraft_server_user}/backup.sh
