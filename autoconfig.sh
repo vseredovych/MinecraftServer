@@ -80,7 +80,7 @@ sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 
 ( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt )
 
-( cd /home/${minecraft_server_user} && FORGE_SERVER_RUN_FILE=$(ls | grep "forge-${minecraft_server_version}.*.jar") )
+FORGE_SERVER_RUN_FILE=$(ls /home/${minecraft_server_user} | grep "forge-1.12.2.*.jar")
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server mods
