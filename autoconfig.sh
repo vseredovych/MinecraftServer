@@ -26,10 +26,16 @@ screen_name="mcs"
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Cleanup everything
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+if [[ $1 == "help" ]]; then
+    echo "Use clean option to clean all change made by script"
+fi
+
 if [[ $1 == "clean" ]]; then
     umount /home/${minecraft_server_user}
     rm -rf /home/${{minecraft_server_user}}
     userdel ${minecraft_server_user}
+    exit 0;
 fi
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -65,7 +71,7 @@ sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 ( cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" ${forge_installer_download_url} )
 ( cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url} )
 
-sudo java -jar "forge-installer-${minecraft_server_version}.jar" --installServer
+( cd /home/${minecraft_server_user} && /usr/bin/java -jar "forge-installer-1.12.2.jar" --installServer )
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create systemd service
