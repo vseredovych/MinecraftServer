@@ -12,8 +12,8 @@ vanilla_server_download_url="https://launcher.mojang.com/mc/game/1.12.2/server/8
 
 # gcp variables manually
 gcp_persistant_volume_name="google-mine-disk"
-gcp_project_id="minecraft-server-298410"
-gcp_bucket_name="${gcp_project_id}-backups"
+gcp_bucket_name="minecraft-server-298410-backups"
+gcp_bucket_mods_archive_path="mods.zip"
 
 # system variables
 minecraft_server_user="minecraft"
@@ -22,31 +22,25 @@ ram_min=1
 ram_max=2
 screen_name="mcs"
 
-
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-# Cleanup everything
+# Script Options
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 if [[ $1 == "help" ]]; then
     echo "Use clean option to clean all change made by script"
+    echo "Use install option to install minecraft server"
 fi
 
 if [[ $1 == "clean" ]]; then
-    gsutil rb -f gs://${gcp_bucket_name}
+    #gsutil rb -f gs://${gcp_bucket_name}
     umount /home/${minecraft_server_user}
     rm -rf /home/${minecraft_server_user}
     userdel ${minecraft_server_user}
     exit 0
 fi
 
-# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-# Create gcp bucket
-# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-if ! [[ $(gsutil ls | grep ${gcp_bucket_name}) ]]; then
-    gsutil mb -c standard -l europe-west3 gs://${gcp_bucket_name}
-else
-    echo "Bucket with name \"${gcp_bucket_name}\" alerady exists"
+if [[ $1 != "install" ]]; then
+    exit 0
 fi
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -57,7 +51,7 @@ fi
 if ! [[ $(id -u ${minecraft_server_user}) ]]; then
     sudo adduser ${minecraft_server_user} --gecos "FirstName LastName,RoomNumber,WorkPhone,HomePhone" --disabled-password
 else
-    echo "User with name \"${gcp_bucket_name}\" alerady exists"
+    echo "WARNING: User with name \"${gcp_bucket_name}\" already exists"
 fi
 
 # Format disk to ext4 format
@@ -84,6 +78,19 @@ sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 ( cd /home/${minecraft_server_user} && /usr/bin/java -jar "forge-installer-1.12.2.jar" --installServer )
 
 ( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt )
+
+
+# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+# Install minecraft server mods
+# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+if [[ ${gcp_bucket_mods_archive_path} ]]; then
+    gsutil cp gs://${gcp_bucket_name}/$gcp_bucket_mods_archive_path /home/${minecraft_server_user}/mods.zip
+    unzip /home/${minecraft_server_user}/mods.zip
+    rm -rf mods.zip
+else
+    echo "WARNING: mods variable hasn't been configured. No mods will be installed."
+fi
+
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create systemd service
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -98,7 +105,9 @@ sed -i "s/{{ ram_max }}/${ram_max}/" /etc/systemd/system/${systemd_service_name}
 sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ minecraft_server_version }}/${minecraft_server_version}/" /etc/systemd/system/${systemd_service_name}.service
 
+echo "1"
 sudo systemctl daemon-reload
+echo "2"
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup script
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––

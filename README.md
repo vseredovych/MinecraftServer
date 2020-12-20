@@ -14,3 +14,7 @@ screen -d -m -S mcs java -Xms2G -Xmx5G -d64 -jar forge-1.12.2-14.23.5.2838-unive
 /home/minecraft/backup.sh
 sudo screen -r mcs -X stuff '/stop\n'
 ```
+
+
+# gsutil mb -c standard -l europe-west3 gs://${gcp_bucket_name}
+# mods folder
