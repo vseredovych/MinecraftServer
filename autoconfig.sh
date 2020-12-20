@@ -32,6 +32,7 @@ if [[ $1 == "help" ]]; then
 fi
 
 if [[ $1 == "clean" ]]; then
+    gsutil rb -c standard -l europe-west3 gs://${gcp_bucket_name}
     umount /home/${minecraft_server_user}
     rm -rf /home/${minecraft_server_user}
     userdel ${minecraft_server_user}
@@ -41,7 +42,7 @@ fi
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create gcp bucket
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-gsutil mb -c standard -l us-central1 gs://${gcp_bucket_name}
+gsutil mb -c standard -l europe-west3 gs://${gcp_bucket_name}
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Prerequisites
