@@ -33,9 +33,7 @@ gsutil mb -c standard -l us-central1 gs://${gcp_bucket_name}
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 # Create minecraft user 
-if [[ ! id -u ${minecraft_server_user} ]]
-    sudo adduser ${minecraft_server_user} --gecos "FirstName LastName,RoomNumber,WorkPhone,HomePhone" --disabled-password
-fi
+sudo adduser ${minecraft_server_user} --gecos "FirstName LastName,RoomNumber,WorkPhone,HomePhone" --disabled-password
 
 # Format disk to ext4 format
 sudo mkfs.ext4 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/disk/by-id/${gcp_persistant_volume_name}
@@ -63,15 +61,15 @@ java -jar "forge-installer-${minecraft_server_version}.jar" --installServer
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create systemd service
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-sudo cp -rf ./templates/minecraft-server.service /etc/systemd/system/${systemd_service_name}
+sudo cp -rf ./templates/minecraft-server.service /etc/systemd/system/${systemd_service_name}.service
 
-sed -i "s/{{ user }}/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}
-sed -i "s/{{ group }}/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}
-sed -i "s/{{ minecraft_server_home }}/\/home/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}
+sed -i "s/{{ user }}/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ group }}/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ minecraft_server_home }}/\/home/${minecraft_server_user}/" /etc/systemd/system/${systemd_service_name}.service
 
-sed -i "s/{{ ram_min }}/\/home/${ram_min}/" /etc/systemd/system/${systemd_service_name}
-sed -i "s/{{ ram_max }}/\/home/${ram_max}/" /etc/systemd/system/${systemd_service_name}
-sed -i "s/{{ screen_name }}/\/home/${screen_name}/" /etc/systemd/system/${systemd_service_name}
+sed -i "s/{{ ram_min }}/\/home/${ram_min}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ ram_max }}/\/home/${ram_max}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ screen_name }}/\/home/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
 
 sudo systemctl daemon-reload
 sudo enable ${systemd_service_name}
