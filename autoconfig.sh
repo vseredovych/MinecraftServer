@@ -75,8 +75,12 @@ sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 ( cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" ${forge_installer_download_url} )
 ( cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url} )
 
-( cd /home/${minecraft_server_user} && /usr/bin/java -jar "forge-installer-1.12.2.jar" --installServer )
+( cd /home/${minecraft_server_user} && /usr/bin/java -jar "forge-installer-${minecraft_server_version}.jar" --installServer )
+( cd /home/${minecraft_server_user} && rm -rf "forge-installer-${minecraft_server_version}.jar" )
+
 ( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt )
+
+( cd /home/${minecraft_server_user} && FORGE_SERVER_RUN_FILE=$(ls | grep "forge-${minecraft_server_version}.*.jar") )
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server mods
@@ -101,7 +105,7 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /etc/sy
 sed -i "s/{{ ram_min }}/${ram_min}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ ram_max }}/${ram_max}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
-sed -i "s/{{ minecraft_server_version }}/${minecraft_server_version}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ forge_server_run_fule }}/${FORGE_SERVER_RUN_FILE}/" /etc/systemd/system/${systemd_service_name}.service
 
 sudo systemctl daemon-reload
 
@@ -117,7 +121,9 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/$
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Start minecraft server
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user} 
+sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user}
+
+sudo chmod +x ${minecraft_server_user}/backup.sh 
 
 sudo systemctl start ${systemd_service_name}
 sudo systemctl enable ${systemd_service_name}
