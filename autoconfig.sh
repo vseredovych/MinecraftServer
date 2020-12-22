@@ -80,6 +80,8 @@ sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
 
 ( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt )
 
+sudo cp -rf ./server.properties /home/${minecraft_server_user}/server.properties
+
 FORGE_SERVER_RUN_FILE=$(ls /home/${minecraft_server_user} | grep "forge-1.12.2.*.jar")
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
