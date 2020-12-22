@@ -122,8 +122,9 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/$
 # Start minecraft server
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraft_server_user}
+sudo chmod +x /home/${minecraft_server_user}/backup.sh
 
-sudo chmod +x ${minecraft_server_user}/backup.sh 
+crontab -l | grep -v -F "/home/${minecraft_server_user}/backup.sh" ; echo "*/30 * * * * /home/${minecraft_server_user}/backup.sh") | crontab -
 
 sudo systemctl start ${systemd_service_name}
 sudo systemctl enable ${systemd_service_name}
