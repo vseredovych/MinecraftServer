@@ -5,7 +5,7 @@ MINECRAFT_SERVER_HOME={{ minecraft_server_home }}
 
 BACKUP_NAME="world"
 
-SCREEN_ACTIVE = $(screen -list | grep ${SCREEN_NAME})
+SCREEN_ACTIVE=$(screen -list | grep ${SCREEN_NAME})
 
 set -eE
 
@@ -30,4 +30,4 @@ if [[ $SCREEN_ACTIVE ]]; then
     screen -r ${SCREEN_NAME} -X stuff '/save-on\n'
 fi
 
-echo "World was backed up successfully. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
+echo "World was successfully saved. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
