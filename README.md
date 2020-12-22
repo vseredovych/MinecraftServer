@@ -13,3 +13,7 @@ gsutil versioning set on  gs://minecraft-server-298410-backups
 
 ### List all versions
 gsutil ls -a  gs://minecraft-server-298410-backups/
+
+## Cusomom EC2 instance metadata
+startup-script - bootstrap.sh
+shutdown-script - shutdown.sh
