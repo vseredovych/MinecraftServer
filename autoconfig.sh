@@ -11,7 +11,7 @@ forge_installer_download_url="https://files.minecraftforge.net/maven/net/minecra
 vanilla_server_download_url="https://launcher.mojang.com/mc/game/1.12.2/server/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
 
 # gcp variables manually
-gcp_persistant_volume_name="google-mine-disk"
+gcp_persistant_volume_name="google-minecraft-disk"
 gcp_bucket_name="minecraft-server-298410-backups"
 gcp_bucket_mods_archive_path="mods.zip"
 
