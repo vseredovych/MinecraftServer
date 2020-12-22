@@ -18,8 +18,8 @@ gcp_bucket_mods_archive_path="mods.zip"
 # system variables
 minecraft_server_user="minecraft"
 systemd_service_name="minecraft"
-ram_min=1
-ram_max=2
+ram_min=8
+ram_max=15
 screen_name="mcs"
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
