@@ -2,11 +2,11 @@
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Define some variables manually
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-GCP_PERSISTANT_VOLUME_NAME="google-minecraft-disk"
+BACKUP_SCRIPT="/home/minecraft/backup.sh"
 SYSTEMD_SERVICE_NAME="minecraft"
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-# Mount volume, add crontab for backups and start minecraft
+# Backup server and stop
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-mount /dev/disk/by-id/${GCP_PERSISTANT_VOLUME_NAME} ${MINECRAFT_SERVER_HOME}
-sudo service ${SYSTEMD_SERVICE_NAME} start
+./BACKUP_SCRIPT
+sudo service ${SYSTEMD_SERVICE_NAME} stop

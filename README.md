@@ -1,20 +1,15 @@
-# MinecraftServer_Configs
+## Prerequisites
+---
+- EC2 instances deployed in gcp
+- Firewall port opened
+- Persistant volume for server created
+- Bucket for mods and backups created:
 
-# startup-script	
-```
-#!/bin/bash
-mount /dev/disk/by-id/google-minecraft-disk /home/minecraft
-(crontab -l | grep -v -F "/home/minecraft/backup.sh" ; echo "0 */4 * * * /home/minecraft/backup.sh")| crontab -
-cd /home/minecraft
-screen -d -m -S mcs java -Xms2G -Xmx5G -d64 -jar forge-1.12.2-14.23.5.2838-universal.jar nogui
-```
-# shutdown-script
-```
-#!/bin/bash
-/home/minecraft/backup.sh
-sudo screen -r mcs -X stuff '/stop\n'
-```
+### Creating bucket
+gsutil mb -c standard -l europe-west3 gs://${gcp_bucket_name}
+ 
+### Enable versioning
+gsutil versioning set on  gs://minecraft-server-298410-backups
 
-
-# gsutil mb -c standard -l europe-west3 gs://${gcp_bucket_name}
-# mods folder
+### List all versions
+gsutil ls -a  gs://minecraft-server-298410-backups/
