@@ -33,7 +33,7 @@ fi
 gsutil cp gs://${GCP_BUCKET_NAME}/${BACKUP_NAME} ${MINECRAFT_SERVER_HOME}/world.zip
 
 # extract world
-unzip -o ${MINECRAFT_SERVER_HOME}/world.zip /
+( cd  ${MINECRAFT_SERVER_HOME} && unzip -o world.zip )
 
 # start the server
 sudo service ${SYSTEMD_SERVICE_NAME} start
