@@ -20,7 +20,7 @@ if [[ $SCREEN_ACTIVE ]]; then
 fi
 
 # archive world
-( cd ${MINECRAFT_SERVER_HOME}&& zip -o ./${BACKUP_NAME} world/*)
+( cd ${MINECRAFT_SERVER_HOME}&& zip -o ${BACKUP_NAME} world/*)
 
 # copy world to the bucket
 gsutil cp ${MINECRAFT_SERVER_HOME}/${BACKUP_NAME}.zip gs://${GCP_BUCKET_NAME}/${BACKUP_NAME}.zip
