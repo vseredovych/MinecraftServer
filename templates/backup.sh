@@ -5,7 +5,7 @@ MINECRAFT_SERVER_HOME={{ minecraft_server_home }}
 
 BACKUP_NAME="world"
 
-SCREEN_ACTIVE=$(systemctl is-active --quiet minecraft)
+SCREEN_ACTIVE=$(sudo systemctl is-active minecraft | grep active)
 
 set -eE
 
