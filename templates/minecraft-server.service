@@ -16,13 +16,13 @@ ExecStart=/usr/bin/screen -DmS {{ screen_name }} /usr/bin/java -Xms{{ ram_min }}
 
 # stop cmd
 # timeout before stop
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "Warning! Selahaddin is comming. The Kingdom Come at 15 seconds....."\015'
+ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "Warning! Selahaddin is comming. The Kingdom Come in 15 seconds....."\015'
 ExecStop=/bin/sleep 5
 
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say The Kingdom Come at 10 seconds..."\015'
+ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say The Kingdom Come in 10 seconds..."\015'
 ExecStop=/bin/sleep 5
 
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say The Kingdom Come at 5 seconds..."\015'
+ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say The Kingdom Come in 5 seconds..."\015'
 ExecStop=/bin/sleep 5
 
 ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say Rest In Peace"\015'
