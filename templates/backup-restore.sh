@@ -20,7 +20,7 @@ set -eE
 
 catch() {
   echo "ERROR at line $LINENO."
-  echo "Backup restoring failed at line $LINENO. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
+  echo "Backup restoring failed at line $LINENO. Timestamp $(date "+%Y/%m/%d-%H:%M:%S")" >> $MINECRAFT_SERVER_HOME/backup.log
 }
 trap catch ERR
 

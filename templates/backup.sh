@@ -18,7 +18,7 @@ catch() {
   curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d text='ERROR: Backup failed!'
 
   echo "ERROR at line $LINENO."
-  echo "Backup failed at line $LINENO. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
+  echo "Backup failed at line $LINENO. Timestamp $(date "+%Y/%m/%d-%H:%M:%S")" >> $MINECRAFT_SERVER_HOME/backup.log
 }
 trap catch ERR
 
