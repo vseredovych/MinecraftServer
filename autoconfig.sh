@@ -54,7 +54,7 @@ fi
 if ! [[ $(id -u ${minecraft_server_user}) ]]; then
     sudo adduser ${minecraft_server_user} --gecos "FirstName LastName,RoomNumber,WorkPhone,HomePhone" --disabled-password
 else
-    echo "WARNING: User with name \"${gcp_bucket_name}\" already exists"
+    echo "WARNING: User with name \"${minecraft_server_user}\" already exists"
 fi
 
 # Format disk to ext4 format
