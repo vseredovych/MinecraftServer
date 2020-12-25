@@ -34,7 +34,7 @@ echo "Archiving current world..."
 
 # copy world to the bucket
 echo "Pushing backup to gcp bucket..."
-gsutil cp ${MINECRAFT_SERVER_HOME}/${BACKUP_NAME}.zip gs://${GCP_BUCKET_NAME}/world.zip
+/snap/bin/gsutil cp ${MINECRAFT_SERVER_HOME}/${BACKUP_NAME}.zip gs://${GCP_BUCKET_NAME}/world.zip
 
 echo "Removing created archive..."
 rm -rf ${MINECRAFT_SERVER_HOME}/world.zip
@@ -45,7 +45,7 @@ if [[ $SCREEN_ACTIVE ]]; then
     sudo -u ${SYSTEMD_SERVICE_NAME} screen -r ${SCREEN_NAME} -X stuff '/save-on\n'
 fi
 
-echo "World was successfully saved. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
+echo "World was successfully saved. Timestamp $(date "+%Y/%m/%d-%H:%M:%S")" >> $MINECRAFT_SERVER_HOME/backup.log
 
 if [[ $SCREEN_ACTIVE ]]; then
     # turn on auto saves

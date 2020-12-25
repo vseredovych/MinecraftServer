@@ -144,7 +144,7 @@ sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraf
 sudo chmod +x /home/${minecraft_server_user}/backup.sh
 sudo chmod +x /home/${minecraft_server_user}/backup-restore.sh
 
-(sudo crontab -l | grep -v -F "/home/${minecraft_server_user}/backup.sh" ; echo "*/20 * * * * sudo /home/${minecraft_server_user}/backup.sh") | sudo crontab -
+(sudo crontab -l | grep -v -F "/home/${minecraft_server_user}/backup.sh" ; echo "*/20 * * * * sudo /home/${minecraft_server_user}/backup.sh > /var/log/cron.log 2>&1") | sudo crontab -
 
 sudo systemctl start ${systemd_service_name}
 sudo systemctl enable ${systemd_service_name}
