@@ -25,7 +25,7 @@ fi
 
 # archive world
 echo "Archiving current world..."
-( cd ${MINECRAFT_SERVER_HOME} && zip -o ${BACKUP_NAME} world/*)
+( cd ${MINECRAFT_SERVER_HOME} && zip -o -r ${BACKUP_NAME} world/*)
 
 # copy world to the bucket
 echo "Pushing backup to gcp bucket..."
