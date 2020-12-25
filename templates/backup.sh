@@ -2,7 +2,7 @@
 SCREEN_NAME={{ screen_name }}
 GCP_BUCKET_NAME={{ gcp_bucket_name }}
 MINECRAFT_SERVER_HOME={{ minecraft_server_home }}
-
+SYSTEMD_SERVICE_NAME={{ systemd_service_name }}
 BACKUP_NAME="world"
 
 SCREEN_ACTIVE=$(sudo systemctl is-active minecraft | grep active)
@@ -16,18 +16,18 @@ trap catch ERR
 
 if [[ $SCREEN_ACTIVE ]]; then
     # turn off auto saves
-    sudo -u minecraft screen -r ${SCREEN_NAME} -X stuff '/save-all\n/save-off\n'
+    sudo -u ${SYSTEMD_SERVICE_NAME} screen -r ${SCREEN_NAME} -X stuff '/save-all\n/save-off\n'
 fi
 
 # archive world
 ( cd ${MINECRAFT_SERVER_HOME}&& zip -o ${BACKUP_NAME} world/*)
 
 # copy world to the bucket
-gsutil cp ${MINECRAFT_SERVER_HOME}/${BACKUP_NAME}.zip gs://${GCP_BUCKET_NAME}/${BACKUP_NAME}.zip
+gsutil cp ${MINECRAFT_SERVER_HOME}/${BACKUP_NAME}.zip gs://${GCP_BUCKET_NAME}/world.zip
 
 if [[ $SCREEN_ACTIVE ]]; then
     # turn on auto saves
-    sudo -u minecraft screen -r ${SCREEN_NAME} -X stuff '/save-on\n'
+    sudo -u ${SYSTEMD_SERVICE_NAME} screen -r ${SCREEN_NAME} -X stuff '/save-on\n'
 fi
 
 echo "World was successfully saved. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log

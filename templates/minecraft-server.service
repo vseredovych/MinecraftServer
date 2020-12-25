@@ -16,20 +16,21 @@ ExecStart=/usr/bin/screen -DmS {{ screen_name }} /usr/bin/java -Xms{{ ram_min }}
 
 # stop cmd
 # timeout before stop
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say SERVER SHUTTING DOWN IN 15 SECONDS..."\015'
-ExecStop=/bin/sleep 5
+#ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say SERVER SHUTTING DOWN IN 15 SECONDS..."\015'
+#ExecStop=/bin/sleep 5
 
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say SERVER SHUTTING DOWN IN 10 SECONDS..."\015'
-ExecStop=/bin/sleep 5
+#ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say SERVER SHUTTING DOWN IN 10 SECONDS..."\015'
+#ExecStop=/bin/sleep 5
 
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say SERVER SHUTTING DOWN IN 5 SECONDS..."\015'
-ExecStop=/bin/sleep 5
+#ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say SERVER SHUTTING DOWN IN 5 SECONDS..."\015'
+#ExecStop=/bin/sleep 5
 
 # save & backup server world
 ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "save-all"\015'
 
 # stop server
 ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "stop"\015'
+ExecStopPost=/bin/sleep 15
 ExecStopPost=/bin/sleep 15
 
 [Install]

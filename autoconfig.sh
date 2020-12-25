@@ -119,6 +119,7 @@ sudo cp -rf ./templates/backup.sh /home/${minecraft_server_user}/backup.sh
 sed -i "s/{{ screen_name }}/${screen_name}/" /home/${minecraft_server_user}/backup.sh
 sed -i "s/{{ gcp_bucket_name }}/${gcp_bucket_name}/" /home/${minecraft_server_user}/backup.sh
 sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/${minecraft_server_user}/backup.sh
+sed -i "s/{{ systemd_service_name }}/${systemd_service_name}/" /home/${minecraft_server_user}/backup.sh
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup restore script
@@ -137,7 +138,7 @@ sudo chown -R ${minecraft_server_user}:${minecraft_server_user} /home/${minecraf
 sudo chmod +x /home/${minecraft_server_user}/backup.sh
 sudo chmod +x /home/${minecraft_server_user}/backup-restore.sh
 
-(sudo crontab -l | grep -v -F "/home/${minecraft_server_user}/backup.sh" ; echo "*/20 * * * * /home/${minecraft_server_user}/backup.sh") | crontab -
+(sudo crontab -l | grep -v -F "/home/${minecraft_server_user}/backup.sh" ; echo "*/20 * * * * /home/${minecraft_server_user}/backup.sh") | sudo crontab -
 
 sudo systemctl start ${systemd_service_name}
 sudo systemctl enable ${systemd_service_name}
