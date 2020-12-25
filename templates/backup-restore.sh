@@ -8,7 +8,8 @@ MINECRAFT_SERVER_HOME={{ minecraft_server_home }}
 SYSTEMD_SERVICE_NAME={{ systemd_service_name }}
 
 if [[ $1 == "latest" ]]; then
-    BACKUP_NAME=$(gsutil ls -a gs://${GCP_BUCKET_NAME}/${BACKUP_NAME}/world.zip | tail -n 1)
+    BACKUP_NAME="world.zip"
+    #$(gsutil ls -a gs://${GCP_BUCKET_NAME}/${BACKUP_NAME}/world.zip | tail -n 1)
 fi
 
 set -eE
@@ -26,18 +27,20 @@ ${MINECRAFT_SERVER_HOME}/backup.sh
 
 # cp world to /tmp
 if [[ -d world ]]; then
-    cp -rf ${MINECRAFT_SERVER_HOME}/world /tmp
+    sudo cp -rf ${MINECRAFT_SERVER_HOME}/world /tmp
 fi
 
 # remove all old worlds
-rm -rf ./world
-rm -rf ./world.zip
+sudo rm -rf ./world
+sudo rm -rf ./world.zip
 
 # cp backup to minecraft home
 gsutil cp gs://${GCP_BUCKET_NAME}/${BACKUP_NAME} ${MINECRAFT_SERVER_HOME}/world.zip
 
 # extract world
 ( cd  ${MINECRAFT_SERVER_HOME} && unzip -o world.zip )
+
+sudo chown -R ${SYSTEMD_SERVICE_NAME}:${SYSTEMD_SERVICE_NAME} ./world
 
 # start the server
 sudo service ${SYSTEMD_SERVICE_NAME} start
