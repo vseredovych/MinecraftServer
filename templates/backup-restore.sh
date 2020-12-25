@@ -7,26 +7,33 @@ GCP_BUCKET_NAME={{ gcp_bucket_name }}
 MINECRAFT_SERVER_HOME={{ minecraft_server_home }}
 SYSTEMD_SERVICE_NAME={{ systemd_service_name }}
 
+echo "Begin."
+
 if [[ $1 == "latest" ]]; then
-    BACKUP_NAME="world.zip"
-    #$(gsutil ls -a gs://${GCP_BUCKET_NAME}/${BACKUP_NAME}/world.zip | tail -n 1)
+    # Split line by slash and get the world name
+    echo "Setting the latest backup name..."
+    BACKUP_NAME=$( gs://${GCP_BUCKET_NAME}/${BACKUP_NAME}/world.zip | tail -n 1 | awk '{split($0,a,"/"); print a[4]}')
+    echo ${BACKUP_NAME}
 fi
 
 set -eE
 
 catch() {
+  echo "ERROR at line $LINENO."
   echo "Backup restoring failed at line $LINENO. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
 }
 trap catch ERR
 
 # stop server
+echo "Stoping server..."
 sudo service ${SYSTEMD_SERVICE_NAME} stop
 
-# backup world
-${MINECRAFT_SERVER_HOME}/backup.sh
-
-# cp world to /tmp
 if [[ -d world ]]; then
+    # backup world
+    echo "World exists run backup script..."
+    ${MINECRAFT_SERVER_HOME}/backup.sh
+    
+    # cp world to /tmp
     sudo cp -rf ${MINECRAFT_SERVER_HOME}/world /tmp
 fi
 
@@ -35,14 +42,19 @@ sudo rm -rf ./world
 sudo rm -rf ./world.zip
 
 # cp backup to minecraft home
+echo "Fetching world..."
 gsutil cp gs://${GCP_BUCKET_NAME}/${BACKUP_NAME} ${MINECRAFT_SERVER_HOME}/world.zip
 
 # extract world
+echo "Restoring backup..."
 ( cd  ${MINECRAFT_SERVER_HOME} && unzip -o world.zip )
 
+echo "Setting correct permissions on the world folder..."
 sudo chown -R ${SYSTEMD_SERVICE_NAME}:${SYSTEMD_SERVICE_NAME} ./world
 
 # start the server
+echo "Starting server..."
 sudo service ${SYSTEMD_SERVICE_NAME} start
 
-echo "World was successfully restored. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
+echo "World was successfully restored. Timestamp $(date "+%Y/%m/%d-%H:%M:%S")" >> $MINECRAFT_SERVER_HOME/backup.log
+echo "End."
