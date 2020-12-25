@@ -12,7 +12,7 @@ echo "Begin."
 if [[ $1 == "latest" ]]; then
     # Split line by slash and get the world name
     echo "Setting the latest backup name..."
-    BACKUP_NAME=$( gs://${GCP_BUCKET_NAME}/${BACKUP_NAME}/world.zip | tail -n 1 | awk '{split($0,a,"/"); print a[4]}')
+    BACKUP_NAME=$(gsutil ls -a gs://${GCP_BUCKET_NAME}/world.zip | tail -n 1 | awk '{split($0,a,"/"); print a[4]}')
     echo ${BACKUP_NAME}
 fi
 
@@ -38,8 +38,8 @@ if [[ -d world ]]; then
 fi
 
 # remove all old worlds
-sudo rm -rf ./world
-sudo rm -rf ./world.zip
+sudo rm -rf ${MINECRAFT_SERVER_HOME}/world
+sudo rm -rf ${MINECRAFT_SERVER_HOME}/world.zip
 
 # cp backup to minecraft home
 echo "Fetching world..."

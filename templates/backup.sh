@@ -31,6 +31,9 @@ echo "Archiving current world..."
 echo "Pushing backup to gcp bucket..."
 gsutil cp ${MINECRAFT_SERVER_HOME}/${BACKUP_NAME}.zip gs://${GCP_BUCKET_NAME}/world.zip
 
+echo "Removing created archive..."
+rm -rf ${MINECRAFT_SERVER_HOME}/world.zip
+
 if [[ $SCREEN_ACTIVE ]]; then
     # turn on auto saves
     echo "Server is active. Turning on auto-saves..."
