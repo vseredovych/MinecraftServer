@@ -30,7 +30,7 @@ sudo service ${SYSTEMD_SERVICE_NAME} stop
 
 if [[ -d world ]]; then
     # backup world
-    echo "World exists run backup script..."
+    echo "World exists runing backup script..."
     ${MINECRAFT_SERVER_HOME}/backup.sh
     
     # cp world to /tmp
@@ -57,4 +57,5 @@ echo "Starting server..."
 sudo service ${SYSTEMD_SERVICE_NAME} start
 
 echo "World was successfully restored. Timestamp $(date "+%Y/%m/%d-%H:%M:%S")" >> $MINECRAFT_SERVER_HOME/backup.log
+
 echo "End."

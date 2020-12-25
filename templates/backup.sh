@@ -3,6 +3,9 @@ SCREEN_NAME={{ screen_name }}
 GCP_BUCKET_NAME={{ gcp_bucket_name }}
 MINECRAFT_SERVER_HOME={{ minecraft_server_home }}
 SYSTEMD_SERVICE_NAME={{ systemd_service_name }}
+TOKEN={{ telegram_token }}
+CHAT_ID={{ telegram_chat_id }}
+
 BACKUP_NAME="world"
 
 echo "Begin."
@@ -12,6 +15,8 @@ SCREEN_ACTIVE=$(sudo systemctl is-active minecraft | grep active)
 set -eE
 
 catch() {
+  curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d text='ERROR: Backup failed!'
+
   echo "ERROR at line $LINENO."
   echo "Backup failed at line $LINENO. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
 }
@@ -41,5 +46,11 @@ if [[ $SCREEN_ACTIVE ]]; then
 fi
 
 echo "World was successfully saved. Timestamp $(date "+%Y%m%d-%H%M%S")" >> $MINECRAFT_SERVER_HOME/backup.log
+
+if [[ $SCREEN_ACTIVE ]]; then
+    # turn on auto saves
+    echo "Server is active. Notifing of backup"
+    sudo -u ${SYSTEMD_SERVICE_NAME} screen -p 0 -S ${SCREEN_NAME} -X eval 'stuff "say Backup was successfully created."\015'
+fi
 
 echo "End."

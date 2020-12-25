@@ -22,6 +22,9 @@ ram_min=8
 ram_max=15
 screen_name="mcs"
 
+telegram_token=""
+telegram_chat_id=""
+
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Script Options
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -120,6 +123,9 @@ sed -i "s/{{ screen_name }}/${screen_name}/" /home/${minecraft_server_user}/back
 sed -i "s/{{ gcp_bucket_name }}/${gcp_bucket_name}/" /home/${minecraft_server_user}/backup.sh
 sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /home/${minecraft_server_user}/backup.sh
 sed -i "s/{{ systemd_service_name }}/${systemd_service_name}/" /home/${minecraft_server_user}/backup.sh
+
+sed -i "s/{{ telegram_token }}/${telegram_token}/" /home/${minecraft_server_user}/backup.sh
+sed -i "s/{{ telegram_chat_id }}/${telegram_chat_id}/" /home/${minecraft_server_user}/backup.sh
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Configure backup restore script
