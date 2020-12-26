@@ -16,24 +16,25 @@ ExecStart=/usr/bin/screen -DmS {{ screen_name }} /usr/bin/java -Xms{{ ram_min }}
 
 # stop cmd
 # timeout before stop
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say Warning! Selahaddin is comming. The Kingdom Come in 15 seconds....."\015'
+ExecStop=/usr/bin/screen -rx {{ screen_name }} -X stuff "/say Alert! Selahaddin is comming. The Kingdom Come in 15 seconds.....\n"
 ExecStop=/bin/sleep 5
 
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say The Kingdom Come in 10 seconds..."\015'
+ExecStop=/usr/bin/screen -rx {{ screen_name }} -X stuff "/say The Kingdom Come in 10 seconds...\n"
 ExecStop=/bin/sleep 5
 
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say The Kingdom Come in 5 seconds..."\015'
+ExecStop=/usr/bin/screen -rx {{ screen_name }} -X stuff "/say The Kingdom Come in 5 seconds...\n"
 ExecStop=/bin/sleep 5
 
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "say Rest In Peace"\015'
+ExecStop=/usr/bin/screen -rx {{ screen_name }} -X stuff "/say Rest In Peace\n"
+ExecStop=/bin/sleep 1
 
 # save & backup server world
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "save-all"\015'
+ExecStop=/usr/bin/screen -rx {{ screen_name }} -X stuff "/save-all\n"
 
 # stop server
-ExecStop=/usr/bin/screen -p 0 -S {{ screen_name }} -X eval 'stuff "stop"\015'
-ExecStopPost=/bin/sleep 15
-ExecStopPost=/bin/sleep 15
+ExecStop=/usr/bin/screen -rx {{ screen_name }} -X stuff "/stop\n"
+
+ExecStopPost=/bin/sleep 5
 
 [Install]
 WantedBy=multi-user.target

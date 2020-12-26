@@ -25,7 +25,7 @@ trap catch ERR
 if [[ $SCREEN_ACTIVE ]]; then
     # turn off auto saves
     echo "Server is active. Saving all and turning off auto-saves..."
-    sudo -u ${SYSTEMD_SERVICE_NAME} screen -r ${SCREEN_NAME} -X stuff '/save-all\n/save-off\n'
+    sudo -u ${SYSTEMD_SERVICE_NAME} screen -rx ${SCREEN_NAME} -X stuff '/save-all\n/save-off\n'
 fi
 
 # archive world
@@ -42,7 +42,7 @@ rm -rf ${MINECRAFT_SERVER_HOME}/world.zip
 if [[ $SCREEN_ACTIVE ]]; then
     # turn on auto saves
     echo "Server is active. Turning on auto-saves..."
-    sudo -u ${SYSTEMD_SERVICE_NAME} screen -r ${SCREEN_NAME} -X stuff '/save-on\n'
+    sudo -u ${SYSTEMD_SERVICE_NAME} screen -rx ${SCREEN_NAME} -X stuff '/save-on\n'
 fi
 
 echo "World was successfully saved. Timestamp $(date "+%Y/%m/%d-%H:%M:%S")" >> $MINECRAFT_SERVER_HOME/backup.log
@@ -50,7 +50,7 @@ echo "World was successfully saved. Timestamp $(date "+%Y/%m/%d-%H:%M:%S")" >> $
 if [[ $SCREEN_ACTIVE ]]; then
     # turn on auto saves
     echo "Server is active. Notifing of backup"
-    sudo -u ${SYSTEMD_SERVICE_NAME} screen -p 0 -S ${SCREEN_NAME} -X eval 'stuff "say Backup was successfully created."\015'
+    sudo -u ${SYSTEMD_SERVICE_NAME} screen -rx ${SCREEN_NAME} -X stuff "/say Backup was successfully created.\n"
 fi
 
 echo "End."
