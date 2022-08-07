@@ -123,7 +123,7 @@ sed -i "s/{{ minecraft_server_home }}/\/home\/${minecraft_server_user}/" /etc/sy
 sed -i "s/{{ ram_min }}/${ram_min}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ ram_max }}/${ram_max}/" /etc/systemd/system/${systemd_service_name}.service
 sed -i "s/{{ screen_name }}/${screen_name}/" /etc/systemd/system/${systemd_service_name}.service
-sed -i "s/{{ forge_server_run_fule }}/${FORGE_SERVER_RUN_FILE}/" /etc/systemd/system/${systemd_service_name}.service
+sed -i "s/{{ forge_server_run_file }}/${FORGE_SERVER_RUN_FILE}/" /etc/systemd/system/${systemd_service_name}.service
 
 sudo systemctl daemon-reload
 
