@@ -43,7 +43,7 @@ sudo rm -rf ${MINECRAFT_SERVER_HOME}/world.zip
 
 # cp backup to minecraft home
 echo "Fetching world..."
-/snap/bin/gsutil cp gs://${GCP_BUCKET_NAME}/${BACKUP_NAME} ${MINECRAFT_SERVER_HOME}/world.zip
+gsutil cp gs://${GCP_BUCKET_NAME}/${BACKUP_NAME} ${MINECRAFT_SERVER_HOME}/world.zip
 
 # extract world
 echo "Restoring backup..."
