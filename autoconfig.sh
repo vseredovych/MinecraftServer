@@ -94,9 +94,9 @@ sudo apt install openjdk-17-jre openjdk-17-jdk
 # Install minecraft server (vanilla only)
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 ( cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url} )
-( cd /home/${minecraft_server_user} && /usr/bin/java -jar "server.jar";
-( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt;
-( cd /home/${minecraft_server_user} && sudo cp -rf ./server.properties /home/${minecraft_server_user}/server.properties
+( cd /home/${minecraft_server_user} && /usr/bin/java -jar "server.jar"; )
+( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt; )
+( cd /home/${minecraft_server_user} && sudo cp -rf ./server.properties /home/${minecraft_server_user}/server.properties )
 FORGE_SERVER_RUN_FILE="/home/${minecraft_server_user}/server.jar"
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
