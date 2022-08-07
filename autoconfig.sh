@@ -3,7 +3,7 @@
 # Define some variables manually
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # minecraft variables
-minecraft_server_version="1.12.2"
+minecraft_server_version="1.19.2"
 
 # Get the forge installer download link here - http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.12.2.html 
 forge_installer_download_url="https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.12.2-14.23.5.2854/forge-1.12.2-14.23.5.2854-installer.jar"
@@ -12,8 +12,8 @@ vanilla_server_download_url="https://launcher.mojang.com/mc/game/1.12.2/server/8
 
 # gcp variables manually
 gcp_persistant_volume_name="google-minecraft-disk"
-gcp_bucket_name="minecraft-server-298410-backups"
-gcp_bucket_mods_archive_path="mods.zip"
+gcp_bucket_name="minecraft-server-20220807-backups"
+# NO MODS # gcp_bucket_mods_archive_path="mods.zip"
 
 # system variables
 minecraft_server_user="minecraft"
@@ -90,14 +90,15 @@ FORGE_SERVER_RUN_FILE=$(ls /home/${minecraft_server_user} | grep "forge-1.12.2.*
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server mods
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-if [[ ${gcp_bucket_mods_archive_path} ]]; then
-    ( cd /home/${minecraft_server_user} && gsutil cp gs://${gcp_bucket_name}/$gcp_bucket_mods_archive_path /home/${minecraft_server_user}/mods.zip )
-    ( cd /home/${minecraft_server_user} && unzip /home/${minecraft_server_user}/mods.zip )
-    ( cd /home/${minecraft_server_user} && rm -rf mods.zip )
-else
-    echo "WARNING: mods variable hasn't been configured. No mods will be installed."
-fi
-
+#
+#NO MODS
+#if [[ ${gcp_bucket_mods_archive_path} ]]; then
+#    ( cd /home/${minecraft_server_user} && gsutil cp gs://${gcp_bucket_name}/$gcp_bucket_mods_archive_path /home/${minecraft_server_user}/mods.zip )
+#    ( cd /home/${minecraft_server_user} && unzip /home/${minecraft_server_user}/mods.zip )
+#    ( cd /home/${minecraft_server_user} && rm -rf mods.zip )
+#else
+#    echo "WARNING: mods variable hasn't been configured. No mods will be installed."
+#fi
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Create systemd service
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
