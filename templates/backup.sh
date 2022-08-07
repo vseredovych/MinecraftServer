@@ -34,7 +34,7 @@ echo "Archiving current world..."
 
 # copy world to the bucket
 echo "Pushing backup to gcp bucket..."
-/snap/bin/gsutil cp ${MINECRAFT_SERVER_HOME}/${BACKUP_NAME}.zip gs://${GCP_BUCKET_NAME}/world.zip
+gsutil cp ${MINECRAFT_SERVER_HOME}/${BACKUP_NAME}.zip gs://${GCP_BUCKET_NAME}/world.zip
 
 echo "Removing created archive..."
 rm -rf ${MINECRAFT_SERVER_HOME}/world.zip
