@@ -18,8 +18,8 @@ gcp_bucket_name="minecraft-server-20220807-backups"
 # system variables
 minecraft_server_user="minecraft"
 systemd_service_name="minecraft"
-ram_min=8
-ram_max=15
+ram_min=1
+ram_max=4
 screen_name="mcs"
 
 telegram_token=""
