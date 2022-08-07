@@ -8,7 +8,7 @@ minecraft_server_version="1.19.2"
 # Get the forge installer download link here - http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.12.2.html 
 forge_installer_download_url="https://maven.minecraftforge.net/net/minecraftforge/forge/1.19-41.1.0/forge-1.19-41.1.0-installer.jar"
 # Get the vanilla server download link here - https://www.minecraft.net/ru-ru/article/minecraft-1122-released
-vanilla_server_download_url="https://launcher.mojang.com/mc/game/1.12.2/server/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
+vanilla_server_download_url="https://piston-data.mojang.com/v1/objects/f69c284232d7c7580bd89a5a4931c3581eae1378/server.jar"
 
 # gcp variables manually
 gcp_persistant_volume_name="google-minecraft-disk"
