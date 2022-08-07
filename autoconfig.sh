@@ -6,7 +6,7 @@
 minecraft_server_version="1.19.2"
 
 # Get the forge installer download link here - http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.12.2.html 
-forge_installer_download_url="https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.12.2-14.23.5.2854/forge-1.12.2-14.23.5.2854-installer.jar"
+forge_installer_download_url="https://maven.minecraftforge.net/net/minecraftforge/forge/1.19-41.1.0/forge-1.19-41.1.0-installer.jar"
 # Get the vanilla server download link here - https://www.minecraft.net/ru-ru/article/minecraft-1122-released
 vanilla_server_download_url="https://launcher.mojang.com/mc/game/1.12.2/server/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
 
