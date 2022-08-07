@@ -12,7 +12,7 @@ Restart=always
 
 # start cmd
 ExecStartPre=/bin/sleep 15
-ExecStart=/usr/bin/screen -DmS {{ screen_name }} /usr/bin/java -Xms{{ ram_min }}G -Xmx{{ ram_max }}G -jar {{ forge_server_run_fule }} nogui
+ExecStart=/usr/bin/screen -DmS {{ screen_name }} /usr/bin/java -Xms{{ ram_min }}G -Xmx{{ ram_max }}G -jar {{ forge_server_run_file }} nogui
 
 # stop cmd
 # timeout before stop
