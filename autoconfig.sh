@@ -97,7 +97,7 @@ sudo apt install openjdk-17-jre openjdk-17-jdk
 ( cd /home/${minecraft_server_user} && /usr/bin/java -jar "server.jar"; )
 ( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt; )
 sudo cp -rf ./server.properties /home/${minecraft_server_user}/server.properties
-FORGE_SERVER_RUN_FILE="/home/${minecraft_server_user}/server.jar"
+FORGE_SERVER_RUN_FILE="server.jar"
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server mods
