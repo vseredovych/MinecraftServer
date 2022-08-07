@@ -68,24 +68,36 @@ sudo mount -o discard,defaults /dev/disk/by-id/${gcp_persistant_volume_name} /ho
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 sudo apt-get install zip unzip wget screen -y
 
-# Install jdk-8 and set alternatives
-sudo apt-get install openjdk-8-jdk -y
-sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
+# Install jdk and set alternatives
+#sudo apt-get install openjdk-8-jdk -y
+#sudo update-java-alternatives -s java-1.8.0-openjdk-amd64 --jre-headless
+
+# Install jdk-17
+sudo apt install openjdk-17-jre openjdk-17-jdk 
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-# Install minecraft server
+# Install minecraft server (forge and vanilla)
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
-( cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" ${forge_installer_download_url} )
+# ( cd /home/${minecraft_server_user} && wget -O "forge-installer-${minecraft_server_version}.jar" ${forge_installer_download_url} )
+# ( cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url} )
+
+# ( cd /home/${minecraft_server_user} && /usr/bin/java -jar "forge-installer-${minecraft_server_version}.jar" --installServer )
+# ( cd /home/${minecraft_server_user} && rm -rf "forge-installer-${minecraft_server_version}.jar" )
+
+# ( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt )
+
+# sudo cp -rf ./server.properties /home/${minecraft_server_user}/server.properties
+
+# FORGE_SERVER_RUN_FILE=$(ls /home/${minecraft_server_user} | grep "forge-1.12.2.*.jar")
+
+# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+# Install minecraft server (vanilla only)
+# -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 ( cd /home/${minecraft_server_user} && wget ${vanilla_server_download_url} )
-
-( cd /home/${minecraft_server_user} && /usr/bin/java -jar "forge-installer-${minecraft_server_version}.jar" --installServer )
-( cd /home/${minecraft_server_user} && rm -rf "forge-installer-${minecraft_server_version}.jar" )
-
-( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt )
-
-sudo cp -rf ./server.properties /home/${minecraft_server_user}/server.properties
-
-FORGE_SERVER_RUN_FILE=$(ls /home/${minecraft_server_user} | grep "forge-1.12.2.*.jar")
+( cd /home/${minecraft_server_user} && /usr/bin/java -jar "server.jar";
+( cd /home/${minecraft_server_user} && echo 'eula=true' > eula.txt;
+( cd /home/${minecraft_server_user} && sudo cp -rf ./server.properties /home/${minecraft_server_user}/server.properties
+FORGE_SERVER_RUN_FILE="/home/${minecraft_server_user}/server.jar"
 
 # -------–––––––––––––––––––––––––––––––––––––––––––––––––––––––
 # Install minecraft server mods
