@@ -11,7 +11,7 @@ forge_installer_download_url="https://maven.minecraftforge.net/net/minecraftforg
 vanilla_server_download_url="https://piston-data.mojang.com/v1/objects/f69c284232d7c7580bd89a5a4931c3581eae1378/server.jar"
 
 # gcp variables manually
-gcp_persistant_volume_name="google-minecraft-disk"
+gcp_persistant_volume_name="google-google-minecraft-disk"
 gcp_bucket_name="minecraft-server-20220807-backups"
 # NO MODS # gcp_bucket_mods_archive_path="mods.zip"
 
